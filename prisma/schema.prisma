@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
   provider = "prisma-client-js"
@@ -13,27 +8,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model BookProject {
+  id           String        @id @default(uuid())
+  language     BookLanguage  @default(English)
+  title        String
+  subtitle     String?
+  authorName   String
+  contributors Contributor[]
+  genre        BookGenre
 
-model Step1 {
-  id String @id @default(uuid())
-  bookLanguage BookLanguage @default(English)
-  bookTitle String
-  bookSubtitle String?
-  authorName String
-  contributors Contributor[] 
-  bookGenre BookGenre
+  design BookDesign?
+  pricing BookPricing?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
 }
 
 model Contributor {
-  id          String      @id @default(uuid())
-  step1       Step1       @relation(fields: [step1Id], references: [id])
-  step1Id     String
+  id            String  @id @default(uuid())
+  bookProjectId String? // TEMPORARILY optional
+
+  bookProject BookProject?    @relation(fields: [bookProjectId], references: [id])
   role        ContributorRole
   name        String
-  createdAt   DateTime    @default(now())
+  createdAt   DateTime        @default(now())
 }
 
 enum BookGenre {
@@ -46,7 +44,7 @@ enum BookGenre {
   Others
 }
 
-enum ContributorRole {  
+enum ContributorRole {
   Coauthor
   Editor
   Illustrator
@@ -59,4 +57,33 @@ enum BookLanguage {
   Bengali
   Tamil
   Telugu
+}
+
+model BookDesign {
+  id            String      @id @default(cuid())
+  bookProjectId String      @unique
+  bookProject   BookProject @relation(fields: [bookProjectId], references: [id])
+
+  size               String?
+  bindingType        String?
+  bookInteriorColour String?
+  paperType          String?
+  coverLamination    String?
+  interiorDesign     String?
+  coverPreview       String?
+  coverFrontImage    String?
+  bookPdfUrl         String?
+}
+
+model BookPricing {
+  id String @id @default(uuid())
+  bookProjectId String @unique
+  bookProject BookProject @relation(fields: [bookProjectId], references: [id])
+
+  packageId String
+  packagePrice Float
+  paperbackPriceInd Float?
+  hardcoverPriceInd Float?
+  paperbackPriceInternational Float?
+  hardcoverPriceInternational Float?
 }

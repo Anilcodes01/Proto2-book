@@ -5,12 +5,8 @@ import { usePathname } from "next/navigation";
 import { LuNotebook } from "react-icons/lu";
 import { RiGeminiFill } from "react-icons/ri";
 import { MdOutlineAnalytics } from "react-icons/md";
+import { Book } from 'lucide-react';
 import { TbLayoutDashboard } from "react-icons/tb";
-import {
-  FaCog,
-  FaInfoCircle,
-  FaSignOutAlt,
-} from "react-icons/fa";
 
 interface NavItem {
   name: string;
@@ -19,18 +15,15 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { name: "Book Info", href: "/step1", icon: TbLayoutDashboard },
+  { name: "Dashboard", href: "/dashboard", icon: TbLayoutDashboard },
+  { name: "Book Info", href: "/step1", icon: Book },
   { name: "Book Content & Design", href: "/step2", icon: LuNotebook },
   { name: "Distribution & Pricing", href: "/step3", icon: RiGeminiFill },
   { name: "Blurb & Metadata", href: "/step4", icon: MdOutlineAnalytics },
  
 ];
 
-const footerNavItems: NavItem[] = [
-  { name: "Settings", href: "/settings", icon: FaCog },
-  { name: "Support", href: "/support", icon: FaInfoCircle },
-  { name: "Logout", href: "/logout", icon: FaSignOutAlt },
-];
+
 
 export default function Sidebar() {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -108,32 +101,7 @@ export default function Sidebar() {
         </nav>
 
         <div className="px-3 py-4 border-t border-white/20">
-          {footerNavItems.map((item) => (
-            <Link
-              key={item.name}
-              href={item.href}
-              className={`
-                flex items-center p-3 my-1 rounded-xl group transition-all duration-200
-                ${isCollapsed ? "justify-center" : ""}
-                text-gray-500 hover:bg-white/60 hover:text-gray-800
-              `}
-              title={isCollapsed ? item.name : ""}
-            >
-              <item.icon
-                className={`
-                  h-5 w-5 flex-shrink-0
-                  transition-colors duration-200
-                  ${isCollapsed ? "" : "mr-3"}
-                `}
-                aria-hidden="true"
-              />
-              <span
-                className={`${isCollapsed ? "sr-only" : "block"} font-medium`}
-              >
-                {item.name}
-              </span>
-            </Link>
-          ))}
+        
         </div>
       </div>
     </aside>

@@ -1,7 +1,7 @@
 import Image from "next/image"
 
 
-export default function Spart1() {
+export default function InfoBanner() {
     const detail = [
         {
             title: 'ISBN',

@@ -1,6 +1,8 @@
 "use client";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface Contributor {
   role: string;
@@ -12,9 +14,10 @@ export default function Step1() {
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
   const [inputFields, setInputFields] = useState<Contributor[]>([]);
-  const [bookTitle, setBookTitle] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
   const [subtitle, setSubtitle] = useState<string>("");
   const [authorName, setAuthorName] = useState<string>("");
+  const router = useRouter();
 
   const roles = [
     { id: "Coauthor", label: "Co-author" },
@@ -52,29 +55,40 @@ export default function Step1() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!selectedLanguage || !bookTitle || !authorName || !selectedGenre) {
+  
+    if (!selectedLanguage || !title || !authorName || !selectedGenre) {
       alert("Please fill all required fields");
       return;
     }
-
+  
     try {
-      const res = await axios.post("/api/step1", {
-        bookLanguage: selectedLanguage,
-        bookTitle,
-        bookSubtitle: subtitle,
+      const res = await axios.post("/api/bookInfo", {
+        language: selectedLanguage,
+        title,
+        subtitle: subtitle,
         authorName,
-        bookGenre: selectedGenre,
+        genre: selectedGenre,
         contributors: inputFields,
       });
-
+  
       if (res.status === 201) {
-        console.log("Book info added successfully!");
+        toast.success("📘 Book info added successfully!");
+        const bookProjectId = res.data.data;
+  
+        if (bookProjectId) {
+          localStorage.setItem("bookProjectId", bookProjectId);
+          console.log("✅ bookProjectId saved to localStorage:", bookProjectId);
+        }
+
+        router.push("/step2");
+        console.log("📘 Book info added successfully!");
       }
     } catch (error) {
-      console.error("Failed to add book information:", error);
+      toast.error("Error adding book info");
     }
   };
+  
+  
 
   const handleRoleSelect = (roleId: string) => {
     setSelectedRoles(prev =>
@@ -108,7 +122,7 @@ export default function Step1() {
 
   return (
     <div className="flex items-center justify-center bg-white w-full min-h-screen p-8 pl-64 text-black">
-      <form onSubmit={handleSubmit} className="flex flex-col px-8 py-8 rounded-2xl border w-4xl">
+      <form onSubmit={handleSubmit} className="flex flex-col px-8 py-8 rounded-2xl  w-4xl">
         <h1 className="text-2xl text-center font-bold">Book Information</h1>
 
         <div className="mt-12">
@@ -136,8 +150,8 @@ export default function Step1() {
             <label htmlFor="title">Book Title*</label>
             <input
               id="title"
-              value={bookTitle}
-              onChange={(e) => setBookTitle(e.target.value)}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               type="text"
               className="border rounded-lg px-2 py-2 text-sm placeholder:text-gray-400"
               required
