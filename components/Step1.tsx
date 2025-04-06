@@ -1,5 +1,6 @@
 "use client";
 import axios from "axios";
+import { Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -18,6 +19,7 @@ export default function Step1() {
   const [subtitle, setSubtitle] = useState<string>("");
   const [authorName, setAuthorName] = useState<string>("");
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const roles = [
     { id: "Coauthor", label: "Co-author" },
@@ -62,6 +64,7 @@ export default function Step1() {
     }
   
     try {
+      setLoading(true);
       const res = await axios.post("/api/bookInfo", {
         language: selectedLanguage,
         title,
@@ -73,6 +76,7 @@ export default function Step1() {
   
       if (res.status === 201) {
         toast.success("📘 Book info added successfully!");
+          setLoading(false);
         const bookProjectId = res.data.data;
   
         if (bookProjectId) {
@@ -275,7 +279,10 @@ export default function Step1() {
             type="submit"
             className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
           >
-            Save and Continue
+           {loading ? <div className="flex items-center justify-center gap-2">
+            <Loader className="animate-spin w-6 h-6" />
+            <span>Saving...</span>
+           </div> : "Save and Continue"}
           </button>
         </div>
       </form>

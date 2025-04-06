@@ -15,7 +15,7 @@ export default function Step2() {
   const [selectedPaper, setSelectedPaper] = useState<string | null>("");
   const [selectCover, setSelectCover] = useState<string | null>("");
   const [coverPreview, setCoverPreview] = useState<string | null>(null);
-
+const [loading, setLoading] = useState(false);
   const [finalDesignOption, setFinalDesignOption] = useState<string>("formatting-tool");
   const [finalUploadedDoc, setFinalUploadedDoc] = useState<UploadedDoc | null>(null);
 
@@ -95,6 +95,7 @@ export default function Step2() {
     setIsSubmitting(true);
 
     try {
+      setLoading(true);
       const response = await axios.post("/api/bookDesign", {
         bookProjectId,
         size: selectedSize,
@@ -108,6 +109,7 @@ export default function Step2() {
 
       if (response.status === 200) {
         toast.success("Book information saved successfully!");
+        setLoading(false);
         router.push("/step3");
       } else {
         const errorMessage = response.data?.message || "Failed to save book information";
@@ -121,6 +123,7 @@ export default function Step2() {
       toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
+      setLoading(false);
     }
   };
 
@@ -135,7 +138,7 @@ export default function Step2() {
 
   return (
     <div className="flex w-full min-h-screen items-center justify-center p-8 bg-white text-black">
-      <div className="w-full max-w-4xl rounded-lg p-6 shadow-md border border-gray-200">
+      <div className="w-full max-w-4xl rounded-lg p-6 ml-44">
         <div className="flex flex-col items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">Book Content & Design</h1>
           <p className="text-center text-gray-600">
@@ -198,7 +201,11 @@ export default function Step2() {
           </button>
         </div>
 
-        <ActionButtons onSaveDraft={handleSaveDraft} onSaveContinue={handleSaveContinue} />
+        <ActionButtons 
+        onSaveDraft={handleSaveDraft} 
+        onSaveContinue={handleSaveContinue}
+        loading={loading}
+      />
       </div>
     </div>
   );
