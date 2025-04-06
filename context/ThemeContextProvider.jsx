@@ -7,6 +7,7 @@ import ThemeContext from "./ThemeContext";
 import domtoimage from "dom-to-image-more";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const ThemeContextProvider = ({ children }) => {
   const [textAreas, setTextAreas] = useState([]);
@@ -17,7 +18,7 @@ const ThemeContextProvider = ({ children }) => {
   const [draggedId, setDraggedId] = useState(null);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [isTyping, setIsTyping] = useState(false); // Controls typing vs dragging
-  // New state for robust drag detection
+  const [loading, setLoading] = useState(false);
   const [dragCandidate, setDragCandidate] = useState(null);
   const [activeId, setActiveId] = useState(null);
   const [page, setPage] = useState("right");
@@ -149,6 +150,7 @@ const ThemeContextProvider = ({ children }) => {
       console.log("📸 front shot captured.");
 
       try {
+        setLoading(true);
         const save = await axios.post("/api/save-preview", {
           bookProjectId,
           coverPreview: dataUrl1,
@@ -157,10 +159,13 @@ const ThemeContextProvider = ({ children }) => {
 
         if (save.status === 200) {
           console.log("✅ Cover preview saved successfully.");
+          setLoading(false);
+          toast.success("Cover preview saved successfully.");
            router.push('/step2')
         }
       } catch (error) {
         console.log("❌ Error saving cover preview:", error);
+        
       }
     } catch (err) {
       console.error("❌ Could not capture:", err);
@@ -253,6 +258,7 @@ const ThemeContextProvider = ({ children }) => {
         deleteActiveTextArea,
         updateTextArea,
         handleMouseDown,
+        loading, setLoading
       }}
     >
       {children}

@@ -19,7 +19,7 @@ const navItems: NavItem[] = [
   { name: "Book Info", href: "/step1", icon: Book },
   { name: "Book Content & Design", href: "/step2", icon: LuNotebook },
   { name: "Distribution & Pricing", href: "/step3", icon: RiGeminiFill },
-  { name: "Blurb & Metadata", href: "/step4", icon: MdOutlineAnalytics },
+
  
 ];
 
@@ -47,7 +47,7 @@ export default function Sidebar() {
   return (
     <aside
       className={`
-        fixed top-0 bg-sky-100 left-0 z-40 h-screen 
+        fixed top-0 bg-sky-100 mt-16 left-0 z-40 h-screen 
          backdrop-blur-md 
         border-r border-white/40
         transition-all duration-300 ease-in-out

@@ -3,16 +3,23 @@ import React, {  useContext } from "react";
 import PageFrame from "./PageFrame";
 import BookSpine from "./BookSpine";
 import ThemeContext from "../../context/ThemeContext";
+import { Loader } from "lucide-react";
+
 
 export default function Book() {
-  const {textAreas, preview, previewFront, captureCover,  previewMode, setPreviewMode, dragging,  draggedId,  isTyping, setIsTyping,  activeId, setActiveId, page, setPage,  deleteActiveTextArea, updateTextArea, handleMouseDown,  rightPageImage,  leftPageImage, } = useContext(ThemeContext);
+  const {loading,  textAreas, preview, previewFront, captureCover,  previewMode, setPreviewMode, dragging,  draggedId,  isTyping, setIsTyping,  activeId, setActiveId, page, setPage,  deleteActiveTextArea, updateTextArea, handleMouseDown,  rightPageImage,  leftPageImage, } = useContext(ThemeContext);
 
   
 
   return (
     <div onClick={()=>setActiveId(null)} className="flex flex-col w-full h-full justify-center items-center bg-[#f0f0f0]">
       <div className="flex mb-4 flex-row w-[45%] h-fit justify-end items-center ">
-        <button className="h-10 w-20 p-2 border border-green-300 rounded bg-green-100" onClick={captureCover}>Save</button>
+        <button className="h-10 cursor-pointer p-2 border border-green-300 rounded bg-green-100" onClick={captureCover}>
+          {loading ?  <div className="flex items-center justify-center gap-2">
+            <Loader className="animate-spin" size={16} />
+            <span>Saving...</span>
+          </div>: "Save Cover"}  
+        </button>
       </div>
       <div id='capture' className="flex flex-row w-[45%] h-[55%] relative" onClick={() => setActiveId(null)}>
         {!previewMode && <div className={`absolute w-[52%] h-[450px] top-[-10px] border-[2px] z-10 border-dashed border-red-600 ${page == 'right'? "right-[-10px]": "left-[-10px]"}`}></div>}
