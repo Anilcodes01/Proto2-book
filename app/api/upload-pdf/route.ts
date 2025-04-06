@@ -6,7 +6,8 @@ import { v2 as cloudinary } from 'cloudinary';
 import { PrismaClient } from '@prisma/client';
 import { tmpdir } from 'os';
 import { randomUUID } from 'crypto';
-import puppeteer from 'puppeteer'; 
+import puppeteer from 'puppeteer-core'; // Changed to puppeteer-core
+import chromium from '@sparticuz/chromium'; // Added
 
 const prisma = new PrismaClient();
 
@@ -45,23 +46,34 @@ export async function POST(req: NextRequest) {
           <meta charset="UTF-8">
           <title>${file.name || 'Document'}</title>
           <style>
-            /* Add necessary styles for PDF rendering if needed */
             body { font-family: sans-serif; margin: 2cm; }
-            /* Handle images, lists, tables etc. as needed */
           </style>
         </head>
         <body>${htmlContent}</body>
       </html>`
     );
 
+    // Configure Chromium for Vercel
     const browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'] 
+      args: chromium.args,
+      executablePath: process.env.CHROME_EXECUTABLE_PATH || await chromium.executablePath(),
+      headless: chromium.headless,
     });
+
     const page = await browser.newPage();
     await page.goto(`file://${tempHtmlPath}`, { waitUntil: 'networkidle0' });
     tempPdfPath = path.join(tmpdir(), `${randomUUID()}.pdf`);
-    await page.pdf({ path: tempPdfPath, format: 'A4', printBackground: true }); 
+    await page.pdf({ 
+      path: tempPdfPath, 
+      format: 'A4', 
+      printBackground: true,
+      margin: {
+        top: '20mm',
+        right: '20mm',
+        bottom: '20mm',
+        left: '20mm'
+      }
+    }); 
     await browser.close();
 
     const uploadRes = await cloudinary.uploader.upload(tempPdfPath, {
@@ -69,7 +81,6 @@ export async function POST(req: NextRequest) {
       folder: 'books-pdf', 
       public_id: path.parse(file.name || randomUUID()).name, 
     });
-
 
     const title = file.name?.replace(/\.docx$/i, '') || 'Untitled Book'; 
     const doc = uploadRes.secure_url
@@ -90,6 +101,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: errorMessage, details: error.message }, { status: 500 });
 
   } finally {
+    // Cleanup code remains the same
     try {
       if (tempDocxPath) await unlink(tempDocxPath);
     } catch (cleanupError) {
