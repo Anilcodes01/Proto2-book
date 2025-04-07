@@ -73,6 +73,17 @@ const ThemeContextProvider = ({ children }) => {
     setActiveId(newTextArea.id);
   };
 
+  useEffect(()=> {
+    setSelectedSize(""),
+    setCoverPreview(""),
+    setSelectedPaper(""),
+    setSelectedBindingType(""),
+    setSelectedInterior(""),
+    setSelectCover(''),
+    setPreview("")
+
+  }, [])
+
    const fetchCoverPreview = async () => {
         try {
           const bookProjectId = localStorage.getItem("bookProjectId");
