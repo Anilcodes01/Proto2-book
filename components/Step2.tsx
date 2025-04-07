@@ -63,18 +63,7 @@ export default function Step2() {
           setSelectCover={setSelectCover}
         />
 
-        <InteriorDesignOption
-          onDesignOptionChange={handleDesignOptionUpdate}
-          onDocumentUpdate={handleDocumentUpdate}
-        />
-
-        {submitError && (
-          <div className="mt-4 p-3 bg-red-100 border border-red-300 text-red-800 rounded text-sm">
-            Error: {submitError}
-          </div>
-        )}
-
-        <div className="mt-6 sm:mt-8">
+<div className="mt-6 sm:mt-8">
           <h1 className="font-medium mb-2 text-base sm:text-lg">
             Cover Design*
           </h1>
@@ -111,6 +100,19 @@ export default function Step2() {
             </button>
           </div>
         </div>
+
+        <InteriorDesignOption
+          onDesignOptionChange={handleDesignOptionUpdate}
+          onDocumentUpdate={handleDocumentUpdate}
+        />
+
+        {submitError && (
+          <div className="mt-4 p-3 bg-red-100 border border-red-300 text-red-800 rounded text-sm">
+            Error: {submitError}
+          </div>
+        )}
+
+       
 
         <ActionButtons
           onSaveDraft={handleSaveDraft}
