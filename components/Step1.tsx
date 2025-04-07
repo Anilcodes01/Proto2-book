@@ -54,7 +54,6 @@ export default function Step1() {
     setSelectedGenre(prev => prev === genre ? null : genre);
   };
 
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
   
@@ -76,7 +75,7 @@ export default function Step1() {
   
       if (res.status === 201) {
         toast.success("📘 Book info added successfully!");
-          setLoading(false);
+        setLoading(false);
         const bookProjectId = res.data.data;
   
         if (bookProjectId) {
@@ -89,10 +88,9 @@ export default function Step1() {
       }
     } catch (error) {
       toast.error("Error adding book info");
+      setLoading(false);
     }
   };
-  
-  
 
   const handleRoleSelect = (roleId: string) => {
     setSelectedRoles(prev =>
@@ -125,18 +123,18 @@ export default function Step1() {
   };
 
   return (
-    <div className="flex items-center justify-center bg-white w-full min-h-screen p-8 pl-64 text-black">
-      <form onSubmit={handleSubmit} className="flex flex-col px-8 py-8 rounded-2xl  w-4xl">
-        <h1 className="text-2xl text-center font-bold">Book Information</h1>
+    <div className="flex items-center justify-center bg-white w-full min-h-screen p-4 md:p-8 md:pl-24 lg:pl-64 text-black">
+      <form onSubmit={handleSubmit} className="flex flex-col px-4 py-6 md:px-8 md:py-8 rounded-2xl w-full max-w-3xl">
+        <h1 className="text-xl md:text-2xl text-center font-bold">Book Information</h1>
 
-        <div className="mt-12">
+        <div className="mt-8 md:mt-12">
           <h2 className="font-medium mb-2">Book Language*</h2>
-          <div className="flex flex-wrap justify-between w-2xl gap-2 mb-5">
+          <div className="flex flex-wrap gap-2 mb-5">
             {languages.map((language) => (
               <button
                 key={language}
                 type="button"
-                className={`px-4 py-1 rounded border transition-colors ${
+                className={`px-3 py-1 rounded border text-sm md:text-base transition-colors ${
                   selectedLanguage === language
                     ? "bg-blue-500 text-white border-blue-500"
                     : "bg-gray-100 text-gray-800 border-gray-300 hover:bg-gray-200"
@@ -149,7 +147,7 @@ export default function Step1() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-6 md:gap-8">
           <div className="flex flex-col gap-1">
             <label htmlFor="title">Book Title*</label>
             <input
@@ -189,7 +187,7 @@ export default function Step1() {
           </div>
         </div>
 
-        <div className="mt-8">
+        <div className="mt-6 md:mt-8">
           <h2 className="text-lg font-medium mb-4">Enter Contributors</h2>
           
           <div className="space-y-3 mb-4">
@@ -226,14 +224,14 @@ export default function Step1() {
             {inputFields.map((field, index) => {
               const roleLabel = roles.find(r => r.id === field.role)?.label || field.role;
               return (
-                <div key={`${field.role}-${index}`} className="flex items-center gap-2">
-                  <span className="w-24 font-medium">{roleLabel}:</span>
+                <div key={`${field.role}-${index}`} className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+                  <span className="w-full sm:w-24 font-medium">{roleLabel}:</span>
                   <input
                     type="text"
                     value={field.name}
                     onChange={(e) => handleInputChange(index, e.target.value)}
                     placeholder={`Enter ${roleLabel} name`}
-                    className="flex-1 px-3 py-2 border rounded"
+                    className="w-full sm:flex-1 px-3 py-2 border rounded"
                   />
                   <button
                     type="button"
@@ -248,14 +246,14 @@ export default function Step1() {
           </div>
         </div>
 
-        <div className="mt-12">
+        <div className="mt-8 md:mt-12">
           <h2 className="font-medium mb-2">Book Genre*</h2>
-          <div className="flex flex-wrap justify-between w-3xl gap-2 mb-5">
+          <div className="flex flex-wrap gap-2 mb-5">
             {genres.map((genre) => (
               <button
                 key={genre}
                 type="button"
-                className={`px-4 py-1 rounded border transition-colors ${
+                className={`px-3 py-1 rounded border text-sm md:text-base transition-colors ${
                   selectedGenre === genre
                     ? "bg-blue-500 text-white border-blue-500"
                     : "bg-gray-100 text-gray-800 border-gray-300 hover:bg-gray-200"
@@ -268,16 +266,16 @@ export default function Step1() {
           </div>
         </div>
 
-        <div className="flex gap-8 mt-8">
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mt-8">
           <button
             type="button"
-            className="border px-4 py-2 rounded-lg cursor-pointer hover:bg-sky-100"
+            className="border px-4 py-2 rounded-lg cursor-pointer hover:bg-sky-100 w-full sm:w-auto"
           >
             Save as Draft
           </button>
           <button
             type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 w-full sm:w-auto"
           >
            {loading ? <div className="flex items-center justify-center gap-2">
             <Loader className="animate-spin w-6 h-6" />

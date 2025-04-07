@@ -6,8 +6,8 @@ import { v2 as cloudinary } from 'cloudinary';
 import { PrismaClient } from '@prisma/client';
 import { tmpdir } from 'os';
 import { randomUUID } from 'crypto';
-import puppeteer from 'puppeteer-core'; // Changed to puppeteer-core
-import chromium from '@sparticuz/chromium'; // Added
+import puppeteer from 'puppeteer-core'; 
+import chromium from '@sparticuz/chromium'; 
 
 const prisma = new PrismaClient();
 

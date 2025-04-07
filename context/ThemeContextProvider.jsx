@@ -25,6 +25,18 @@ const ThemeContextProvider = ({ children }) => {
   const [previewMode, setPreviewMode] = useState(false);
   const [preview, setPreview] = useState(null); // Store captured image
   const [previewFront, setPreviewFront] = useState(null); // Store captured image
+  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedBindingType, setSelectedBindingType] = useState("");
+  const [selectedInterior, setSelectedInterior] = useState("");
+  const [selectedPaper, setSelectedPaper] = useState("");
+  const [selectCover, setSelectCover] = useState("");
+  const [coverPreview, setCoverPreview] = useState(null);
+  const [finalDesignOption, setFinalDesignOption] = useState("formatting-tool");
+  const [finalUploadedDoc, setFinalUploadedDoc] = useState(null);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
+  console.log(isSubmitting, submitError)
   const router = useRouter()
   const defaultPositions = {
     title: { x: 0, y: 20 },
@@ -61,11 +73,117 @@ const ThemeContextProvider = ({ children }) => {
     setActiveId(newTextArea.id);
   };
 
+   const fetchCoverPreview = async () => {
+        try {
+          const bookProjectId = localStorage.getItem("bookProjectId");
+          if (!bookProjectId) return;
+          console.log("calling api")
+  
+          const res = await axios.post("/api/get-info", { bookProjectId });
+  
+          if (res.status === 200) {
+            toast.success("Cover preview fetched successfully");
+           
+          }
+          const data = res.data?.data;
+          console.log(data)
+  
+          if (data) {
+console.log("coverPreview", data.coverPreview)
+            setCoverPreview(data.coverPreview || null);
+           
+          }
+        } catch (error) {
+          toast.error("Error fetching cover preview");
+        }
+      };
+
   const deleteActiveTextArea = () => {
     if (activeId) {
       setTextAreas((prev) => prev.filter((ta) => ta.id !== activeId));
       setActiveId(null);
     }
+  };
+
+  const handleDesignOptionUpdate = (option) => {
+    setFinalDesignOption(option);
+  };
+
+  const handleDocumentUpdate = (doc) => {
+    setFinalUploadedDoc(doc);
+  };
+
+  const handleSubmit = async (e) => {
+    e?.preventDefault();
+    setSubmitError(null);
+
+    if (
+      !selectedSize ||
+      !selectedBindingType ||
+      !selectedInterior ||
+      !selectedPaper ||
+      !selectCover
+    ) {
+      setSubmitError("Please fill all Book Specification fields.");
+      alert("Please fill all Book Specification fields.");
+      return;
+    }
+
+    if (finalDesignOption === "pdf-file" && !finalUploadedDoc) {
+      setSubmitError("Please upload a DOCX file or select the formatting tool option.");
+      toast.error("Please upload a DOCX file or select the formatting tool option.");
+      return;
+    }
+
+    const bookProjectId = localStorage.getItem("bookProjectId");
+    if (!bookProjectId) {
+      setSubmitError("Book Project ID not found. Please go back to Step 1.");
+      alert("Book Project ID not found. Please go back to Step 1.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      setLoading(true);
+      const response = await axios.post("/api/bookDesign", {
+        bookProjectId,
+        size: selectedSize,
+        bindingType: selectedBindingType,
+        bookInteriorColour: selectedInterior,
+        paperType: selectedPaper,
+        coverLamination: selectCover,
+        interiorDesign: finalDesignOption,
+        bookPdfUrl: finalUploadedDoc?.cloudinaryUrl ?? null,
+      });
+
+      if (response.status === 200) {
+        toast.success("Book information saved successfully!");
+        setLoading(false);
+        router.push("/step3");
+      } else {
+        const errorMessage = response.data?.message || "Failed to save book information";
+        setSubmitError(errorMessage);
+        toast.error(errorMessage);
+      }
+    } catch (error) {
+      const errorMessage =
+        error.response?.data?.message || error.message || "Error saving book information";
+      setSubmitError(errorMessage);
+      toast.error(errorMessage);
+    } finally {
+      setIsSubmitting(false);
+      setLoading(false);
+    }
+  };
+
+  const handleSaveDraft = () => {
+    console.log("Save Draft clicked (implement logic)");
+    toast.success("Save draft functionality not completed yet.")
+  };
+
+  const handleSaveContinue = () => {
+    handleSubmit();
   };
 
   const updateTextArea = (id, changes) => {
@@ -258,7 +376,12 @@ const ThemeContextProvider = ({ children }) => {
         deleteActiveTextArea,
         updateTextArea,
         handleMouseDown,
-        loading, setLoading
+        loading, setLoading,
+        handleSaveDraft,
+        handleSaveContinue,
+        handleDesignOptionUpdate,
+        handleDocumentUpdate,
+        handleSubmit, setCoverPreview, coverPreview, setIsSubmitting, setSelectedSize, selectedSize, selectedBindingType, setSelectedBindingType, selectedInterior, setSelectedInterior, selectedPaper, setSelectedPaper, selectCover, setSelectCover, preview, setPreview, finalDesignOption, setFinalDesignOption, finalUploadedDoc, setFinalUploadedDoc, fetchCoverPreview
       }}
     >
       {children}

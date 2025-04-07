@@ -1,4 +1,4 @@
-// src/components/BookDesign/InteriorDesignOption.tsx (or wherever your PARENT component is)
+
 "use client";
 import { useState, useEffect } from "react"; // Import useEffect
 import { FormattingToolOption } from "./FormattingToolOptions";

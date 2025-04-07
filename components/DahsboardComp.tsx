@@ -39,37 +39,44 @@ export default function DashboardComp() {
   }, []);
 
   return (
-    <div className="w-full min-h-screen bg-gray-100 flex items-start justify-center py-10 px-6">
-      <div className="max-w-4xl w-full bg-white rounded-2xl shadow-lg p-8">
-       <div className="flex items-center gap-16">
-       <h1 className="text-4xl font-bold mb-6 text-gray-800">📚 Book Dashboard</h1>
-       <button onClick={() => router.push("/step1")} className="border px-4 py-2 mb-6 hover:bg-sky-100 cursor-pointer rounded-lg">Add new Book</button>
-       </div>
+    <div className="w-full min-h-screen bg-gray-100 flex items-start justify-center py-6 sm:py-10 px-4 sm:px-6">
+      <div className="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-4 sm:p-8">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-16 mb-6">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">📚 Book Dashboard</h1>
+          <button 
+            onClick={() => router.push("/step1")} 
+            className="border px-4 py-2 hover:bg-sky-100 cursor-pointer rounded-lg text-sm sm:text-base w-full sm:w-auto text-center"
+          >
+            Add new Book
+          </button>
+        </div>
 
         {loading ? (
           <div className="text-gray-500">Loading your masterpieces...</div>
         ) : books.length > 0 ? (
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
             {books.map((book) => (
-              <div key={book.id} className="flex flex-col md:flex-row gap-8 border-b pb-8 last:border-b-0 last:pb-0">
-                <div className="flex-shrink-0">
+              <div key={book.id} className="flex flex-col sm:flex-row gap-4 sm:gap-8 border-b pb-6 sm:pb-8 last:border-b-0 last:pb-0">
+                <div className="flex-shrink-0 mx-auto sm:mx-0">
                   <Image
                     src={book.design?.coverFrontImage || "/img1.jpeg"}
                     alt="Cover Image"
                     width={200}
                     height={300}
-                    className="rounded-xl object-cover w-48 h-72"
+                    className="rounded-xl object-cover w-36 h-56 sm:w-48 sm:h-72"
                   />
                 </div>
 
-                <div className="flex flex-col justify-between">
+                <div className="flex flex-col justify-between mt-4 sm:mt-0 text-center sm:text-left">
                   <div>
-                    <h2 className="text-2xl font-semibold text-gray-800 mb-2">{book.title}</h2>
-                    <p className="text-lg text-gray-600 mb-4">By <span className="font-medium">{book.authorName}</span></p>
+                    <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-1 sm:mb-2">{book.title}</h2>
+                    <p className="text-base sm:text-lg text-gray-600 mb-2 sm:mb-4">
+                      By <span className="font-medium">{book.authorName}</span>
+                    </p>
                   </div>
 
-                  <div>
-                    <button className="mt-4 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-all">
+                  <div className="mt-2 sm:mt-0">
+                    <button className="mt-2 sm:mt-4 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-all text-sm sm:text-base w-full sm:w-auto">
                       ✏️ Edit Book
                     </button>
                   </div>

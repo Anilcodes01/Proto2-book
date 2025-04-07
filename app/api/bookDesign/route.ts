@@ -64,7 +64,7 @@ export async function POST(req: NextRequest,) {
 
     return NextResponse.json({
       message: "Book design created successfully",
-    });
+    }, {status: 200});
   } catch (error: any) {
     return NextResponse.json(
       {

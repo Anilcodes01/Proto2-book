@@ -10,7 +10,7 @@ export default function Appbar() {
         onClick={() => router.push("/")}
         className="lg:text-3xl text-2xl ml-4 font-bold lg:ml-8"
       >
-        NotionStress
+        NotionVerse
       </button>
     </div>
   );
