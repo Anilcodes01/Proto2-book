@@ -4,7 +4,7 @@ import Book from '../../components/Cover/Designer';
 
 export default function DesignCanvas() {
     return (
-        <div className='w-full mt-16  h-screen  flex'>
+        <div className='w-full bg-transparent  h-screen  flex'>
             <SideBar/>
             <Book/>
         </div>

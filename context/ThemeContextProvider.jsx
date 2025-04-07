@@ -73,17 +73,6 @@ const ThemeContextProvider = ({ children }) => {
     setActiveId(newTextArea.id);
   };
 
-  useEffect(()=> {
-    setSelectedSize(""),
-    setCoverPreview(""),
-    setSelectedPaper(""),
-    setSelectedBindingType(""),
-    setSelectedInterior(""),
-    setSelectCover(''),
-    setPreview("")
-
-  }, [])
-
    const fetchCoverPreview = async () => {
         try {
           const bookProjectId = localStorage.getItem("bookProjectId");
@@ -171,6 +160,13 @@ console.log("coverPreview", data.coverPreview)
       if (response.status === 200) {
         toast.success("Book information saved successfully!");
         setLoading(false);
+        setSelectedSize(""),
+        setCoverPreview(""),
+        setSelectedPaper(""),
+        setSelectedBindingType(""),
+        setSelectedInterior(""),
+        setSelectCover(''),
+        setPreview("")
         router.push("/step3");
       } else {
         const errorMessage = response.data?.message || "Failed to save book information";
