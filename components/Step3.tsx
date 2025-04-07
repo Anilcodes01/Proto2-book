@@ -198,7 +198,8 @@ export default function Step3() {
       {/* Modal */}
       {isModalOpen && (
         // Use fixed positioning and cover the screen, centering the content
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0 bg-white/10 backdrop-blur-md flex items-center justify-center z-50 p-4">
+
           {/* Modal Panel: responsive max-width, margin auto for centering, overflow-y-auto for scroll on small screens */}
           <div className="bg-white rounded-lg shadow-xl max-w-md w-full mx-auto overflow-y-auto max-h-[90vh]">
             {/* Modal Header */}
