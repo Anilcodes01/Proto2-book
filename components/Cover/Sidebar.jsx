@@ -25,18 +25,18 @@ export default function SideBar() {
     }, []);
     
     return (
-        <div className=''>
+        <>
             {/* Toggle button for mobile */}
             <button 
                 onClick={() => setIsOpen(!isOpen)}
-                className="fixed top-4 right-4 z-50 md:hidden m bg-white rounded-full p-2 shadow-lg"
+                className="fixed top-4 right-4 z-50 md:hidden bg-white rounded-full p-2 shadow-lg"
             >
                 {isOpen ? <X size={24} /> : <span className="block w-6 h-6 text-center font-bold">+</span>}
             </button>
             
             {/* Sidebar */}
             <div 
-                className={`fixed md:static top-0 right-0 mt-16 w-[85%] md:w-[22%] bg-white h-full flex text-black flex-col shadow-lg transition-transform duration-300 z-40 ${
+                className={`fixed md:static top-0 mt-16 md:mt-0 right-0 w-[85%] md:w-[22%] bg-white h-full flex text-black flex-col shadow-lg transition-transform duration-300 z-40 ${
                     isOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'
                 }`}
             >
@@ -66,7 +66,7 @@ export default function SideBar() {
                 <div className="flex-1 overflow-y-auto">
                     {/* Background tab */}
                     {activeTab === 'background' && 
-                        <div id='background' className='w-full bg-white h-full p-2'>
+                        <div id='background' className='w-full bg-gray-300 h-full p-2'>
                             <div className='flex flex-wrap gap-2 justify-center md:justify-start'>
                                 <button onClick={() => {
                                     if (page === "right") {
@@ -186,10 +186,10 @@ export default function SideBar() {
             {/* Overlay for mobile when sidebar is open */}
             {isOpen && (
                 <div 
-                    className="fixed inset-0 bg-[rgba(0,0,0,0.3)] bg-opacity-50 z-30 md:hidden"
+                    className="fixed inset-0 bg-transparent bg-opacity-50 z-30 md:hidden"
                     onClick={() => setIsOpen(false)}
                 />
             )}
-        </div>
+        </>
     );
 }

@@ -9,7 +9,7 @@ export default function Book() {
   const {
     loading, textAreas, preview, previewFront, captureCover, previewMode, setPreviewMode,
     dragging, draggedId, isTyping, setIsTyping, activeId, setActiveId, page, setPage,
-    deleteActiveTextArea, updateTextArea, handleMouseDown, rightPageImage, leftPageImage,
+    deleteActiveTextArea, updateTextArea, handleMouseDown, rightPageImage, leftPageImage, openSideBar, setOpenSideBar
   } = useContext(ThemeContext);
   
   const [viewportWidth, setViewportWidth] = useState(0);

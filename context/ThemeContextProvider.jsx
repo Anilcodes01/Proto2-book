@@ -11,6 +11,7 @@ import { toast } from "sonner";
 
 const ThemeContextProvider = ({ children }) => {
   const [textAreas, setTextAreas] = useState([]);
+  const [openSideBar, setOpenSideBar] = useState(false)
   const [selectedImage, setSelectedImage] = useState("");
   const [rightPageImage, setRightPageImage] = useState("");
   const [leftPageImage, setLeftPageImage] = useState("");
@@ -388,7 +389,7 @@ console.log("coverPreview", data.coverPreview)
         handleSaveContinue,
         handleDesignOptionUpdate,
         handleDocumentUpdate,
-        handleSubmit, setCoverPreview, coverPreview, setIsSubmitting, setSelectedSize, selectedSize, selectedBindingType, setSelectedBindingType, selectedInterior, setSelectedInterior, selectedPaper, setSelectedPaper, selectCover, setSelectCover, preview, setPreview, finalDesignOption, setFinalDesignOption, finalUploadedDoc, setFinalUploadedDoc, fetchCoverPreview
+        handleSubmit, setCoverPreview, openSideBar, setOpenSideBar, coverPreview, setIsSubmitting, setSelectedSize, selectedSize, selectedBindingType, setSelectedBindingType, selectedInterior, setSelectedInterior, selectedPaper, setSelectedPaper, selectCover, setSelectCover, preview, setPreview, finalDesignOption, setFinalDesignOption, finalUploadedDoc, setFinalUploadedDoc, fetchCoverPreview
       }}
     >
       {children}
