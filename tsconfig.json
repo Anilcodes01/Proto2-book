@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "context/ThemeContextProvider.jsx", "components/Cover/Sidebar.jsx", "components/Cover/Designer.jsx", "components/Cover/TextStyleEditor.jsx", "components/Cover/BookSpine.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "context/ThemeContextProvider.jsx", "components/Cover/Sidebar.jsx", "components/Cover/Designer.jsx", "components/Cover/TextStyleEditor.jsx", "components/Cover/BookSpine.jsx", "app/rev/page.jsx"],
   "exclude": ["node_modules"]
 }

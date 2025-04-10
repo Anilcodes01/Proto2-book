@@ -125,9 +125,9 @@ export function InteriorDesignOption({
 
   return (
     // No change needed in the JSX structure itself
-    <div className="mt-8">
-      <h1 className="font-medium mb-2">Interior Design*</h1>
-      <div className="space-y-4">
+    <div className="mt-8 w-full">
+      <h1 className="font-medium w-full mb-2">Interior Design*</h1>
+      <div className="space-y-4 w-full">
         <FormattingToolOption
           isSelected={selectedDesignOption === "formatting-tool"}
           onChange={handleOptionChange}
