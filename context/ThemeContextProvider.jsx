@@ -54,7 +54,7 @@ const ThemeContextProvider = ({ children }) => {
       type === "title" ? 40 : type === "subtitle" ? 30 : 20;
 
     const newTextArea = {
-      id: Date.now(), // Unique ID
+      id: Date.now(), 
       type,
       value:
         type === "title"
@@ -168,6 +168,9 @@ console.log("coverPreview", data.coverPreview)
         setSelectedInterior(""),
         setSelectCover(''),
         setPreview("")
+        localStorage.removeItem("tinymce-other-default-dedication")
+        localStorage.removeItem("tinymce-other-default-forward")
+        localStorage.removeItem("tinymce-other-default-prologue")
         router.push("/step3");
       } else {
         const errorMessage = response.data?.message || "Failed to save book information";
