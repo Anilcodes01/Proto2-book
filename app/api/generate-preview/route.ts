@@ -139,10 +139,77 @@ export async function POST(req: NextRequest) {
     tempFinalHtmlPath = path.join(tmpdir(), `${randomUUID()}-final.html`);
     await writeFile(tempFinalHtmlPath, finalHtml);
 
-    // Initialize Puppeteer with simplified configuration
+    // Initialize Puppeteer with improved configuration for local development
+    let executablePath;
+
+    try {
+      // First try environment variable if set
+      if (process.env.CHROME_EXECUTABLE_PATH) {
+        executablePath = process.env.CHROME_EXECUTABLE_PATH;
+        console.log("Using CHROME_EXECUTABLE_PATH:", executablePath);
+      }
+      // Then try local Chrome installations on common paths based on platform
+      else if (process.platform === 'darwin') { // macOS
+        const macPaths = [
+          '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+          '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge'
+        ];
+        
+        for (const chromePath of macPaths) {
+          try {
+            await access(chromePath, constants.X_OK);
+            executablePath = chromePath;
+            console.log("Using local Chrome:", executablePath);
+            break;
+          } catch (e) {
+            // Path not accessible, try next
+          }
+        }
+      } 
+      else if (process.platform === 'win32') { // Windows
+        const winPaths = [
+          'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
+          'C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe',
+          'C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe'
+        ];
+        
+        for (const chromePath of winPaths) {
+          try {
+            await access(chromePath, constants.F_OK);
+            executablePath = chromePath;
+            console.log("Using local Chrome:", executablePath);
+            break;
+          } catch (e) {
+            // Path not accessible, try next
+          }
+        }
+      }
+      
+      // If no local browser found, fall back to @sparticuz/chromium
+      if (!executablePath) {
+        executablePath = await chromium.executablePath();
+        console.log("Using @sparticuz/chromium:", executablePath);
+      }
+    } catch (error) {
+      console.error("Error finding Chrome executable:", error);
+      throw new Error("Could not find a compatible Chrome executable");
+    }
+
+    // Standard arguments for Puppeteer
+    const browserArgs = [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+      '--disable-accelerated-2d-canvas',
+      '--no-first-run',
+      '--no-zygote',
+      '--disable-gpu'
+    ];
+
+    // Launch browser with the determined executable path
     browser = await puppeteer.launch({
-      args: chromium.args,
-      executablePath: process.env.CHROME_EXECUTABLE_PATH || await chromium.executablePath(),
+      args: browserArgs,
+      executablePath: executablePath,
       headless: true,
     });
 
@@ -154,7 +221,10 @@ export async function POST(req: NextRequest) {
     tempPdfPath = path.join(tmpdir(), `${randomUUID()}.pdf`);
     
     // Navigate to HTML file
-    await page.goto(`file://${tempFinalHtmlPath}`, { 
+    const fileUrl = `file://${tempFinalHtmlPath}`;
+    console.log(`Navigating to: ${fileUrl}`);
+    
+    await page.goto(fileUrl, { 
       waitUntil: 'load',
       timeout: 30000 // Reduced timeout
     });
@@ -184,6 +254,9 @@ export async function POST(req: NextRequest) {
 
   } catch (error: any) {
     console.error('Error during PDF generation:', error.message);
+    if (error.stack) {
+      console.error('Stack trace:', error.stack);
+    }
     
     return NextResponse.json({
       error: 'Failed to generate PDF preview',

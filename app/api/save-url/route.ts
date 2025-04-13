@@ -14,13 +14,18 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const check = await prisma.bookDesign.findUnique({
-        where: { bookProjectId },
-      });
-      console.log("Existing BookDesign: ", check);
-      
-
-    const save = await prisma.bookDesign.update({
+    // Check if BookDesign exists for this project
+    const existingBookDesign = await prisma.bookDesign.findUnique({
+      where: { bookProjectId },
+    });
+    
+    console.log("Existing BookDesign: ", existingBookDesign);
+    
+    let save;
+    
+    if (existingBookDesign) {
+      // Update existing record
+      save = await prisma.bookDesign.update({
         where: {
           bookProjectId: bookProjectId,
         },
@@ -28,7 +33,15 @@ export async function POST(req: NextRequest) {
           bookPdfUrl: previewUrl,
         },
       });
-      
+    } else {
+      // Create new record if one doesn't exist
+      save = await prisma.bookDesign.create({
+        data: {
+          bookProjectId: bookProjectId,
+          bookPdfUrl: previewUrl,
+        },
+      });
+    }
 
     return NextResponse.json(
       {
@@ -38,6 +51,7 @@ export async function POST(req: NextRequest) {
       { status: 200 }
     );
   } catch (error: any) {
+    console.error("Error saving URL:", error);
     return NextResponse.json(
       {
         message: "Error while saving url",
