@@ -1,6 +1,5 @@
 import axios from "axios";
 import { FetchedChapter, FetchedPart, PartData, ChapterOption, SectionData, FetchedFrontMatter, FetchedEndMatter } from "@/app/lib/types"; 
-import { initialSections } from "@/app/lib/constants";
 
 function formatApiError(error: unknown, context: string): string {
     let errorMessage = `An unexpected error occurred during ${context}.`;

@@ -70,27 +70,5 @@ export const interiors = [
 
 
 
-  export const initialSections: SectionData[] = [
-    {
-      title: "Front Matter",
-      options: [
-        "Dedication",
-        "Forward",
-        "Preface",
-        "Acknowledgements",
-        "Prologue",
-      ],
-    },
-    {
-      title: "Chapters",
-      // Start with empty options, they will be fetched
-      options: [],
-    },
-    {
-      title: "End Matter",
-      options: ["Afterword", "Acknowledgments", "About the Author", "Index"],
-    },
-  ];
-  
-
+ 
   
