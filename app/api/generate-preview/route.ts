@@ -7,7 +7,7 @@ import { randomUUID } from 'crypto';
 import puppeteer from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
