@@ -19,6 +19,7 @@ import "swiper/css/pagination";
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 import Image from "next/image";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const LOCAL_STORAGE_CHAPTER_PREFIX = "tinymce-chapter-";
 const LOCAL_STORAGE_PART_PREFIX = "tinymce-part-";
@@ -52,7 +53,7 @@ export default function Step3Page() {
   const stylePickerRef = useRef<HTMLDivElement>(null);
   const styleButtonRef = useRef<HTMLButtonElement>(null);
   const [loading, setLoading] = useState(false);
-
+const router = useRouter();
 
   useEffect(() => {
     const id = localStorage.getItem("bookProjectId");
@@ -314,6 +315,7 @@ export default function Step3Page() {
 
             if(res.status === 200){
                 toast.success("Preview saved successfully...!")
+                router.push("/step2")
                 console.log("preview saved successfully")
             }
         } catch (error) {

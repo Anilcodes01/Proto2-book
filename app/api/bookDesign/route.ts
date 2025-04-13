@@ -11,7 +11,7 @@ export async function POST(req: NextRequest,) {
       paperType,
       coverLamination,
       interiorDesign,
-      bookPdfUrl,
+    
     } = await req.json();
     if (
       !size ||
@@ -19,8 +19,8 @@ export async function POST(req: NextRequest,) {
       !bookInteriorColour ||
       !paperType ||
       !coverLamination ||
-      !interiorDesign ||
-      !bookPdfUrl
+      !interiorDesign 
+   
     ) {
       return NextResponse.json(
         { message: "Missing required fields" },
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest,) {
           coverLamination,
           interiorDesign,
           bookInteriorColour,
-          bookPdfUrl,
+      
         },
       });
     } else {
@@ -57,7 +57,7 @@ export async function POST(req: NextRequest,) {
           coverLamination,
           interiorDesign,
           bookInteriorColour,
-          bookPdfUrl,
+    
         },
       });
     }

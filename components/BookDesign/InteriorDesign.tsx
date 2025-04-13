@@ -128,13 +128,13 @@ export function InteriorDesignOption({
     <div className="mt-8 w-full">
       <h1 className="font-medium w-full mb-2">Interior Design*</h1>
       <div className="space-y-4 w-full">
-        <FormattingToolOption
-          isSelected={selectedDesignOption === "formatting-tool"}
-          onChange={handleOptionChange}
-          value="formatting-tool"
-          onDocumentUpdate={setCurrentDoc}
-          currentDocument={currentDoc} // Pass currentDoc as currentDocument
-        />
+      <FormattingToolOption
+    isSelected={selectedDesignOption === "formatting-tool"}
+    onChange={handleOptionChange}
+    value="formatting-tool"
+    // onDocumentUpdate={setCurrentDoc} // <--- REMOVE THIS LINE
+    currentDocument={currentDoc}
+  />
         <UploadDocxOption
           isSelected={selectedDesignOption === "pdf-file"}
           onChange={handleOptionChange}

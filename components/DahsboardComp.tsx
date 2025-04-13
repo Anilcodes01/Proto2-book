@@ -38,13 +38,20 @@ export default function DashboardComp() {
     fetchBookData();
   }, []);
 
+  const handleAddbook = async () => {
+        const removeId = localStorage.removeItem("bookProjectId");
+        console.log("bookid removed successfully")
+        router.push("/step1")
+
+  }
+
   return (
     <div className="w-full min-h-screen bg-gray-100 flex items-start justify-center py-6 sm:py-10 px-4 sm:px-6">
       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-4 sm:p-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-16 mb-6">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800">📚 Book Dashboard</h1>
           <button 
-            onClick={() => router.push("/step1")} 
+            onClick={handleAddbook}
             className="border px-4 py-2 hover:bg-sky-100 cursor-pointer rounded-lg text-sm sm:text-base w-full sm:w-auto text-center"
           >
             Add new Book
