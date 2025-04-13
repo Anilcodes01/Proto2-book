@@ -6,7 +6,8 @@ import { tmpdir } from 'os';
 import { randomUUID } from 'crypto';
 import puppeteer from 'puppeteer-core';
 import chromium from '@sparticuz/chromium';
-import { ChapterOption, PartData } from '@/app/lib/types';
+
+export const runtime = 'edge';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -222,7 +223,9 @@ export async function POST(req: NextRequest) {
       format: 'A4',
       printBackground: true,
       margin: { top: '2cm', right: '2cm', bottom: '2cm', left: '2cm' },
-      timeout: 90000
+      timeout: 60000,
+      preferCSSPageSize: true, // Better for serverless
+      scale: 0.8 // Reduce slightly to save processing
     });
     console.log("PDF generation attempted.");
 
