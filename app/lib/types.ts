@@ -80,8 +80,9 @@ export interface SectionData {
 
 export interface ChapterActionsDropdownProps {
   isChapterSelected: boolean;
-  onAddChapterClick: () => void;
-  onAddPartClick: () => void;
+  // Update these lines to accept the event argument
+  onAddChapterClick: (event: React.MouseEvent) => void;
+  onAddPartClick: (event: React.MouseEvent) => void;
 }
 
 export interface OtherOptionData {
