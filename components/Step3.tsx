@@ -265,7 +265,7 @@ export default function Step3() {
             </div>
 
             {/* Modal Footer */}
-            <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 p-4 bg-gray-50 border-t border-gray-200 sticky bottom-0 bg-white">
+            <div className="flex flex-col sm:flex-row justify-end gap-2 sm:gap-3 p-4 bg-gray-50 border-t border-gray-200 sticky bottom-0 ">
                <button
                 onClick={() => setIsModalOpen(false)}
                 className="w-full sm:w-auto px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 transition-colors disabled:opacity-50 text-sm sm:text-base"

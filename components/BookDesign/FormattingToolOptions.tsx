@@ -5,6 +5,7 @@ import { UploadedDoc } from "./InteriorDesign";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
+import { useRouter } from "next/navigation";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `/pdf.worker.min.js`;
 
@@ -53,6 +54,7 @@ export function FormattingToolOption({
   const [pageTextContent, setPageTextContent] = useState<{[key: number]: string}>({});
   const [devicePixelRatio, setDevicePixelRatio] = useState(1);
   const [textExtractionInProgress, setTextExtractionInProgress] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setDevicePixelRatio(window.devicePixelRatio || 1);
@@ -401,7 +403,7 @@ export function FormattingToolOption({
               </div>
               <button
                 type="button"
-                onClick={handleLaunchClick}
+                onClick={() => router.push('/format-book')}
                 className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors text-sm"
               >
                 Launch Template

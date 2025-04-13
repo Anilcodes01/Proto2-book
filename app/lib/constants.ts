@@ -1,3 +1,5 @@
+import { SectionData } from "./types";
+
 export const interiors = [
     {
       type: "Black & White",
@@ -65,3 +67,30 @@ export const interiors = [
         "Recommended for lighter colored covers, especially with graphic designs",
     },
   ];
+
+
+
+  export const initialSections: SectionData[] = [
+    {
+      title: "Front Matter",
+      options: [
+        "Dedication",
+        "Forward",
+        "Preface",
+        "Acknowledgements",
+        "Prologue",
+      ],
+    },
+    {
+      title: "Chapters",
+      // Start with empty options, they will be fetched
+      options: [],
+    },
+    {
+      title: "End Matter",
+      options: ["Afterword", "Acknowledgments", "About the Author", "Index"],
+    },
+  ];
+  
+
+  
