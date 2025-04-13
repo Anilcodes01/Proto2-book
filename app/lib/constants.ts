@@ -70,5 +70,17 @@ export const interiors = [
 
 
 
- 
-  
+  export const initialSections: SectionData[] = [
+    {
+      title: "Front Matter",
+      options: [], // Initialize as empty array
+    },
+    {
+      title: "Chapters",
+      options: [], // Initialize as empty array
+    },
+    {
+      title: "End Matter",
+      options: [], // Initialize as empty array
+    },
+  ];
